@@ -63,25 +63,12 @@ public class BSPGenerator : MonoBehaviour
             node.rightChild = new BSPNode(new Rect(splitPosition, node.partition.yMin, node.partition.xMax - splitPosition, node.partition.height));
         }
 
-        //if (splitHorizontal)
-        //{
-        //    //node.leftChild = new BSPNode(new Rect(node.partition.xMin, node.partition.yMin, node.partition.width, splitPosition - node.partition.yMin));
-        //    //node.rightChild = new BSPNode(new Rect(node.partition.xMin, splitPosition, node.partition.width, node.partition.yMax - splitPosition));
-        //}
-        //else
-        //{
-        //    //node.leftChild = new BSPNode(new Rect(node.partition.xMin, node.partition.yMin, splitPosition - node.partition.xMin, node.partition.height));
-        //    //node.rightChild = new BSPNode(new Rect(splitPosition, node.partition.yMin, node.partition.xMax - splitPosition, node.partition.height));
-        //}
-
         SplitPartition(node.leftChild, remainingDepth - 1);
         SplitPartition(node.rightChild, remainingDepth - 1);
     }
 
     void GenerateTerrain(Rect partition)
     {
-        //if (partition.width < minWidth || partition.height < minHeight)
-        //{
             Vector3 groundPosition = new Vector3(partition.center.x, partition.center.y, partition.center.x);
             Instantiate(groundPrefab, groundPosition, Quaternion.identity);
             float wallThickness = 1f;
@@ -89,31 +76,5 @@ public class BSPGenerator : MonoBehaviour
             Vector3 leftWallPosition = new Vector3(partition.xMin, partition.center.y, partition.center.x);
             Vector3 leftWallScale = new Vector3(wallThickness, 1, partition.height);
             Instantiate(wallPrefab, leftWallPosition, Quaternion.identity).transform.localScale = leftWallScale;
-        //}
-        //else
-        //{
-        //    GenerateWalls(partition);
-        //}
     }
-
-    //void GenerateWalls(Rect partition)
-    //{
-    //    float wallThickness = 1f;
-
-    //    Vector3 leftWallPosition = new Vector3(partition.xMin, partition.center.y, partition.center.x);
-    //    Vector3 leftWallScale = new Vector3(wallThickness, 1, partition.height);
-    //    Instantiate(wallPrefab, leftWallPosition, Quaternion.identity).transform.localScale = leftWallScale;
-
-    //    //Vector3 rightWallPosition = new Vector3(partition.xMax, 0, partition.center.y);
-    //    //Vector3 rightWallScale = new Vector3(wallThickness, 1, partition.height);
-    //    //Instantiate(wallPrefab, rightWallPosition, Quaternion.identity).transform.localScale = rightWallScale;
-
-    //    //Vector3 frontWallPosition = new Vector3(partition.center.x, 0, partition.yMin);
-    //    //Vector3 frontWallScale = new Vector3(partition.width, 1, wallThickness);
-    //    //Instantiate(wallPrefab, frontWallPosition, Quaternion.identity).transform.localScale = frontWallScale;
-
-    //    //Vector3 backWallPosition = new Vector3(partition.center.x, 0, partition.yMax);
-    //    //Vector3 backWallScale = new Vector3(partition.width, 1, wallThickness);
-    //    //Instantiate(wallPrefab, backWallPosition, Quaternion.identity).transform.localScale = backWallScale;
-    //}
 }
