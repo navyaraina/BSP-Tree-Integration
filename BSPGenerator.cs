@@ -7,7 +7,7 @@ public class BSPGenerator : MonoBehaviour
     public int depth = 5;
     public float minWidth = 5f;
     public float minHeight = 5f;
-    public float maxVariation = 3f;
+    public float maxVariation = 0f;
 
     public GameObject groundPrefab;
     public GameObject wallPrefab;
@@ -30,7 +30,7 @@ public class BSPGenerator : MonoBehaviour
 
     void Start()
     {
-        BSPNode root = new BSPNode(new Rect(0, 0, 100, 100));
+        BSPNode root = new BSPNode(new Rect(0, 0, 20, 0));
 
         SplitPartition(root, depth);
     }
@@ -69,12 +69,14 @@ public class BSPGenerator : MonoBehaviour
 
     void GenerateTerrain(Rect partition)
     {
-            Vector3 groundPosition = new Vector3(partition.center.x, partition.center.y, partition.center.x);
-            Instantiate(groundPrefab, groundPosition, Quaternion.identity);
-            float wallThickness = 1f;
+        //Vector3 groundPosition = new Vector3(partition.xMin, partition.xMin, partition.max.y);
+        Vector3 groundPosition = new Vector3(partition.min.x, 0, 0);
+        Vector3 groundScale = new Vector3(100, 100, 100);
+        Quaternion rotation = Quaternion.Euler(270f, 0f, 0f);
+        Instantiate(groundPrefab, groundPosition, rotation).transform.localScale=groundScale;
 
-            Vector3 leftWallPosition = new Vector3(partition.xMin, partition.center.y, partition.center.x);
-            Vector3 leftWallScale = new Vector3(wallThickness, 1, partition.height);
-            Instantiate(wallPrefab, leftWallPosition, Quaternion.identity).transform.localScale = leftWallScale;
+        Vector3 leftWallPosition = new Vector3(partition.min.x, 0, 0);
+        Vector3 leftWallScale = new Vector3(100, 100, 100);
+        Instantiate(wallPrefab, leftWallPosition, rotation).transform.localScale = leftWallScale;
     }
 }
